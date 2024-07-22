@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { accessTokenThunk } from './store';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const dispatch = useDispatch();
+    const accessToken = useSelector((state) => state.accessToken.token);
+    const isLoading = useSelector((state) => state.accessToken.isLoading);
+    const failed = useSelector((state) => state.accessToken.failed);
 
-  return (
-    <div>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    useEffect(() => {
+        // Dispatch the action to get the access token
+        dispatch(accessTokenThunk());
+    }, [dispatch]);
+
+    useEffect(() => {
+        // Log the access token and other state
+        console.log('Access Token:', accessToken);
+        console.log('Loading:', isLoading);
+        console.log('Failed:', failed);
+    }, [accessToken, isLoading, failed]);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (failed) return <div>Failed to fetch access token.</div>;
+
+    return (
+        <div>
+            <h1>Spotify App</h1>
+            <p>Access Token: {accessToken}</p>
+        </div>
+    );
 }
 
-export default App
+export default App;
+
+
+// import { useState } from 'react'
+
+// function App(props) {
+//   const { state, dispatch } = props;
+//   return (
+//     <div>
+//       <h1>SPOTIFY API</h1>
+//       <p>{state.toString()}</p>
+//     </div>
+//   )
+// }
+
+// export default App
