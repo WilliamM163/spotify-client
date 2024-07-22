@@ -52,8 +52,43 @@ export const store = configureStore({
     }
 });
 
+// SUMMARY ->
+
+// Explanation of store.jsx Updates
+// Here's the explanation for the updates made in store.jsx:
+
+// Import Statements:
+
+// authenticate and refreshAccessToken are imported from login_api.js to handle the authentication and token refresh logic.
+// Thunk Action (accessTokenThunk):
+
+// Role: Handles the process of fetching the access token.
+// Behavior:
+// Checks if an access token is present in localStorage.
+// If the token is not found, it calls authenticate() to obtain a new token.
+// If the token is found but expired (based on tokenExpiryTime in localStorage), it calls refreshAccessToken() to refresh the token.
+// If no valid token is obtained, it returns a rejection with an error message.
+// Slice (accessTokenSlice):
+
+// Role: Manages the state related to the access token.
+// State:
+// token: Stores the access token.
+// isLoading: Indicates if the token fetching process is in progress.
+// failed: Indicates if the token fetching process failed.
+// Reducers: No explicit reducers as we are handling the state changes in extraReducers.
+// ExtraReducers:
+// pending: Sets isLoading to true when the thunk action is dispatched.
+// fulfilled: Updates the token with the new access token, sets isLoading to false, and resets failed to false.
+// rejected: Sets isLoading to false and failed to true if the thunk action fails.
+// Store Configuration:
+
+// Combines the accessTokenSlice reducer into the store configuration.
 
 
+
+
+
+// ################################## PREVIOUS CODE ############################
 // import { createSlice, configureStore, createAsyncThunk } from '@reduxjs/toolkit';
 // import authenticate from './login_api';
 

@@ -1,4 +1,4 @@
-// login_api.js
+
 const clientId = '2ef60a6a1ca94d4f86b4f82b869cd940';
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
@@ -133,3 +133,28 @@ async function getAccessToken(clientId, code) {
 }
 
 export { authenticate, refreshAccessToken }; // Named exp
+//SUMMARY
+// We implemented a robust authentication mechanism for our Spotify client using the following steps:
+
+// Authenticate Users:
+// Users are redirected to Spotify’s authorization page to obtain an authorization code.
+// The code is then exchanged for an access token and a refresh token.
+// Tokens are securely stored in localStorage.
+
+// Token Management:
+// Access Token Retrieval: When the app needs an access token, it first checks localStorage.
+// Token Expiry Handling: If the access token is expired, the app automatically uses the refresh token to get a new access token.
+// Token Storage: New tokens are updated in localStorage to ensure continuous access without re-authentication.
+// Code Explanation:
+
+// authenticate(): Manages the overall authentication process.
+// redirectToAuthCodeFlow(): Handles redirection to Spotify’s authorization page.
+// getAccessToken(): Exchanges authorization code for tokens.
+// refreshAccessToken(): Uses refresh token to get a new access token.
+// This approach ensures a seamless and secure authentication experience for users, allowing continuous access to Spotify’s API without repeated logins.
+
+
+
+
+
+
