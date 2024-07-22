@@ -8,10 +8,7 @@ function App() {
     const isLoading = useSelector((state) => state.accessToken.isLoading);
     const failed = useSelector((state) => state.accessToken.failed);
 
-    useEffect(() => {
-        // Dispatch the action to get the access token
-        dispatch(accessTokenThunk());
-    }, [dispatch]);
+    console.log(useSelector((state) => state));
 
     useEffect(() => {
         // Log the access token and other state
