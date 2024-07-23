@@ -1,4 +1,3 @@
-
 const clientId = '2ef60a6a1ca94d4f86b4f82b869cd940';
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
@@ -132,8 +131,12 @@ async function getAccessToken(clientId, code) {
     }
 }
 
-export { authenticate, refreshAccessToken }; // Named exp
-//SUMMARY
+export { authenticate, refreshAccessToken }; 
+//  * Login API Helper Functions
+//  * This file contains helper functions for Spotify authentication.
+//  * It includes functions to authenticate and refresh access tokens.
+
+//SUMMARY of this fil->
 // We implemented a robust authentication mechanism for our Spotify client using the following steps:
 
 // Authenticate Users:

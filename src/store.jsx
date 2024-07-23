@@ -1,5 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authenticate, refreshAccessToken } from './login_api.js';
+import { authenticate, refreshAccessToken } from './login_api';
+import { searchSpotify } from './spotifyapi.js';
 
 export const accessTokenThunk = createAsyncThunk(
     'accessToken/get',
@@ -7,17 +8,41 @@ export const accessTokenThunk = createAsyncThunk(
         let accessToken = localStorage.getItem("access_token");
         const tokenExpiryTime = localStorage.getItem("token_expiry_time");
 
-        if (!accessToken) {
-            accessToken = await authenticate(); // Authenticate if no token
-        } else if (tokenExpiryTime && Date.now() > tokenExpiryTime) {
-            // If token is expired, refresh it
-            accessToken = await refreshAccessToken();
+        if (!accessToken || (tokenExpiryTime && Date.now() > tokenExpiryTime)) {
+            accessToken = await authenticate(); // Authenticate if no token or expired token
         }
 
         if (!accessToken) {
             return rejectWithValue("Failed to get access token");
         }
         return accessToken;
+    }
+);
+
+export const searchThunk = createAsyncThunk(
+    'search/query',
+    async (query, { getState, rejectWithValue, dispatch }) => {
+        const state = getState();
+        let token = state.accessToken.token;
+        const tokenExpiryTime = localStorage.getItem("token_expiry_time");
+
+        if (!token || (tokenExpiryTime && Date.now() > tokenExpiryTime)) {
+            // Refresh token if it's expired
+            await dispatch(accessTokenThunk());
+            token = getState().accessToken.token;
+        }
+
+        if (!token) {
+            return rejectWithValue("No access token available");
+        }
+
+        try {
+            const results = await searchSpotify(query, token);
+            console.log('Search Results:', results); // Log results for debugging
+            return results;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
     }
 );
 
@@ -46,40 +71,46 @@ const accessTokenSlice = createSlice({
     }
 });
 
-export const store = configureStore({
-    reducer: {
-        accessToken: accessTokenSlice.reducer,
+const searchSlice = createSlice({
+    name: 'search',
+    initialState: {
+        results: [],
+        isLoading: false,
+        error: null,
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(searchThunk.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(searchThunk.fulfilled, (state, action) => {
+                state.isLoading = false;
+                // Ensure results are properly set
+                state.results = action.payload.tracks ? action.payload.tracks.items : [];
+            })
+            .addCase(searchThunk.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            });
     }
 });
 
-// SUMMARY ->
 
-// Explanation of store.jsx Updates
-// Here's the explanation for the updates made in store.jsx:
+export const store = configureStore({
+    reducer: {
+        accessToken: accessTokenSlice.reducer,
+        search: searchSlice.reducer,
+    }
+});
+/**
+ * Redux Store Configuration
+ * 
+ * This file configures the Redux store for managing the application's state.
+ * It includes slices for handling access tokens and search results.
+ * The `accessTokenThunk` is used to fetch and refresh the Spotify access token.
+ * The `searchThunk` is used to fetch search results from the Spotify API.
+ */
 
-// Import Statements:
 
-// authenticate and refreshAccessToken are imported from login_api.js to handle the authentication and token refresh logic.
-// Thunk Action (accessTokenThunk):
-
-// Role: Handles the process of fetching the access token.
-// Behavior:
-// Checks if an access token is present in localStorage.
-// If the token is not found, it calls authenticate() to obtain a new token.
-// If the token is found but expired (based on tokenExpiryTime in localStorage), it calls refreshAccessToken() to refresh the token.
-// If no valid token is obtained, it returns a rejection with an error message.
-// Slice (accessTokenSlice):
-
-// Role: Manages the state related to the access token.
-// State:
-// token: Stores the access token.
-// isLoading: Indicates if the token fetching process is in progress.
-// failed: Indicates if the token fetching process failed.
-// Reducers: No explicit reducers as we are handling the state changes in extraReducers.
-// ExtraReducers:
-// pending: Sets isLoading to true when the thunk action is dispatched.
-// fulfilled: Updates the token with the new access token, sets isLoading to false, and resets failed to false.
-// rejected: Sets isLoading to false and failed to true if the thunk action fails.
-// Store Configuration:
-
-// Combines the accessTokenSlice reducer into the store configuration.
