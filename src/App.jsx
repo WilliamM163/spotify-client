@@ -1,18 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { accessTokenThunk } from './store';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import SearchBar from './components/search/SearchBar';
 import SearchResults from './components/search/SearchResults';
 
 function App() {
-    const dispatch = useDispatch();
     const accessToken = useSelector((state) => state.accessToken.token);
     const isLoading = useSelector((state) => state.accessToken.isLoading);
     const failed = useSelector((state) => state.accessToken.failed);
-
-    useEffect(() => {
-        dispatch(accessTokenThunk());
-    }, [dispatch]);
 
     if (isLoading) return <div>Loading...</div>;
     if (failed) return <div>Failed to fetch access token.</div>;
