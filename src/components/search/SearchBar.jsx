@@ -1,7 +1,11 @@
-// src/components/Search.jsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {searchThunk}from '../../store';
+import { searchThunk } from '../../store';
+
+// Importing styles
+import { primary_container } from '../../App.module.css';
+import styles from './SearchBar.module.css';
+
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -13,22 +17,21 @@ const Search = () => {
     };
 
     return (
-        <div>
+        <div className={`${primary_container} ${styles.search}`}>
             <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for music..."
+                placeholder="What song are you looking for?"
+                className={styles.search_input}
             />
-            <button onClick={handleSearch} disabled={isLoading}>
-                {isLoading ? 'Searching...' : 'Search'}
+            <button
+                onClick={handleSearch}
+                disabled={isLoading}
+                className={styles.search_input}
+            >
+                {isLoading ? 'Searching...' : '🔍 Search'}
             </button>
-            {error && <p>Error: {error}</p>}
-            <ul>
-                {results.map((item) => (
-                    <li key={item.id}>{item.name} by {item.artists[0].name}</li>
-                ))}
-            </ul>
         </div>
     );
 };
