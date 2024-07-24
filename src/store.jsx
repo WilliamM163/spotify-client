@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authenticate, refreshAccessToken } from './login_api';
-import { searchSpotify } from './spotifyapi.js';
+import { authenticate, refreshAccessToken } from './api/login_api.js';
+import { searchSpotify } from './api/spotifyapi.js';
 
 export const accessTokenThunk = createAsyncThunk(
     'accessToken/get',

@@ -1,7 +1,7 @@
 // src/components/Search.jsx
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {searchThunk}from './store';
+import {searchThunk}from '../../store';
 
 const Search = () => {
     const [query, setQuery] = useState('');

@@ -12,4 +12,5 @@
     npm run dev (to demo in browser)
 
 ## TODO
-- [ ] Implement Redux Store
+- [x] Implement Redux Store
+- [ ] Implementing the design with CSS
