@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { accessTokenThunk } from './store';
-import SearchBar from './SearchBar';
-import SearchResults from './SearchResults';
+import SearchBar from './components/search/SearchBar';
+import SearchResults from './components/search/SearchResults';
 
 function App() {
     const dispatch = useDispatch();
