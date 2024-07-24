@@ -13,4 +13,5 @@
 
 ## TODO
 - [x] Implement Redux Store
+- [ ] Implementing token refresh when access_token has expired
 - [ ] Implementing the design with CSS

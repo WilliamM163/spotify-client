@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import SearchBar from './components/search/SearchBar';
 import SearchResults from './components/search/SearchResults';
 
+import styles from './App.module.css';
+import { Sidebar } from './components/Sidebar';
+
 function App() {
-    const accessToken = useSelector((state) => state.accessToken.token);
     const isLoading = useSelector((state) => state.accessToken.isLoading);
     const failed = useSelector((state) => state.accessToken.failed);
 
@@ -12,11 +14,10 @@ function App() {
     if (failed) return <div>Failed to fetch access token.</div>;
 
     return (
-        <div>
-            <h1>Spotify App</h1>
-            <p>Access Token: {accessToken}</p>
+        <div className={styles.grid}>
             <SearchBar />
             <SearchResults />
+            <Sidebar />
         </div>
     );
 }
@@ -27,3 +28,17 @@ export default App;
 // * The access token is fetched and displayed on the UI.
 // * The component also includes the SearchBar and SearchResults components for searching and displaying music tracks.
 
+
+// OLD CODE:  - I removed the text Spotify App header, and the access_token from the view
+// function App() {
+//     ...code
+
+//     return (
+//         <div>
+//             <h1>Spotify App</h1>
+//             <p>Access Token: {accessToken}</p>
+//             <SearchBar />
+//             <SearchResults />
+//         </div>
+//     );
+// }

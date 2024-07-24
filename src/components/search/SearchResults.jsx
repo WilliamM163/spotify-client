@@ -1,29 +1,21 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
+import { Track } from '../Track';
+
 function SearchResults() {
   const { results, isLoading, error } = useSelector((state) => state.search);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+  if (results.length === 0) return <div>No Results</div>
 
   return (
     <div>
-      {results.length === 0 ? (
-        <div>No results found</div>
-      ) : (
-        <ul>
-          {results.map((track) => (
-            <li key={track.id}>
-              <div>
-                <strong>{track.name}</strong> by {track.artists[0].name}
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+      {results.map(result => <Track track={result} />)}
     </div>
   );
+
 }
 
 export default SearchResults;

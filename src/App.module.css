@@ -1,0 +1,33 @@
+/* Generic Compenent Styles */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-gap: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Idealy different colors the different containers would have different colors */
+
+.primary_container {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #dede30;
+    background-color: #d8d8e4 !important;
+}
+
+.secondary_container {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #8ded90;
+    background-color: #d8d8e4 !important;
+}
+
+.accent_container {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #5ae593;
+    background-color: #d8d8e4 !important;
+}
