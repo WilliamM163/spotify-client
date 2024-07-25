@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from './Track.module.css';
+
+import styles from './styles/Track.module.css';
 import { secondary_container } from '../App.module.css';
 
 function Track({ track }) {
@@ -22,19 +23,19 @@ function Track({ track }) {
             </div>
             <div className={styles.buttons}>
                 <img
-                    src='/images/play.svg'
+                    src='/icons/play.svg'
                     className={styles.icon}
                     title='Play Preview'
                     alt='Play'
                 />
                 <img
-                    src='/images/add.svg'
+                    src='/icons/add.svg'
                     className={styles.icon}
                     title='Add to playlist'
                     alt='Add'
                 />
                 <img
-                    src='/images/open_spotify.svg'
+                    src='/icons/open_spotify.svg'
                     className={styles.icon}
                     onClick={openSpotify}
                     id={track.id}

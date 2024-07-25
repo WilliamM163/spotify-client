@@ -1,0 +1,7 @@
+.account_tab {
+    grid-area: 1 / 10 / 2 / 11;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

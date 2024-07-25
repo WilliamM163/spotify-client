@@ -1,7 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Track } from '../Track';
+import { Track } from './Track';
+
+import styles from './styles/SearchResults.module.css';
 
 function SearchResults() {
   const { results, isLoading, error } = useSelector((state) => state.search);
@@ -11,7 +13,7 @@ function SearchResults() {
   if (results.length === 0) return <div>No Results</div>
 
   return (
-    <div>
+    <div className={styles.search_results}>
       {results.map(result => <Track track={result} />)}
     </div>
   );

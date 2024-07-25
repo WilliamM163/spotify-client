@@ -1,9 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import SearchBar from './components/search/SearchBar';
-import SearchResults from './components/search/SearchResults';
+import SearchBar from './components/SearchBar';
+import SearchResults from './components/SearchResults';
+import Tabs from './components/Tabs';
+import AccountTab from './components/AccountTab';
 
 import styles from './App.module.css';
+
 import { Sidebar } from './components/Sidebar';
 
 function App() {
@@ -15,7 +18,9 @@ function App() {
 
     return (
         <div className={styles.grid}>
+            <Tabs />
             <SearchBar />
+            <AccountTab />
             <SearchResults />
             <Sidebar />
         </div>

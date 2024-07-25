@@ -1,9 +1,11 @@
 import React from "react";
 
-import styles from '../App.module.css';
+import { accent_container } from '../App.module.css';
+import styles from './styles/Sidebar.module.css';
+
 
 function Sidebar() {
-    return <div className={styles.accent_container}>Sidebar:</div>
+    return <div className={`${accent_container} ${styles.sidebar}`}>Sidebar:</div>
 }
 
 export { Sidebar };
