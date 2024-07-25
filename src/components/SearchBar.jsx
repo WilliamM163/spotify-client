@@ -6,7 +6,6 @@ import { searchThunk } from '../store';
 import { primary_container } from '../App.module.css';
 import styles from './styles/SearchBar.module.css';
 
-
 const Search = () => {
     const [query, setQuery] = useState('');
     const dispatch = useDispatch();
@@ -35,6 +34,7 @@ const Search = () => {
 };
 
 export default Search;
+
 
 // * SearchBar Component->
 // * This component provides an input field and a button for searching music tracks.

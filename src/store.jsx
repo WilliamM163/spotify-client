@@ -1,6 +1,6 @@
 import { configureStore, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { authenticate, refreshAccessToken } from './api/login_api.js';
-import { searchSpotify } from './api/spotifyapi.js';
+import { authenticate, refreshAccessToken } from './api/login_api';
+import { searchSpotify } from './api/spotifyapi';
 
 export const accessTokenThunk = createAsyncThunk(
     'accessToken/get',
@@ -9,7 +9,11 @@ export const accessTokenThunk = createAsyncThunk(
         const tokenExpiryTime = localStorage.getItem("token_expiry_time");
 
         if (!accessToken || (tokenExpiryTime && Date.now() > tokenExpiryTime)) {
-            accessToken = await authenticate(); // Authenticate if no token or expired token
+            accessToken = await refreshAccessToken(); // Refresh token if expired
+
+            if (!accessToken) {
+                accessToken = await authenticate(); // Authenticate if no token or failed to refresh
+            }
         }
 
         if (!accessToken) {
@@ -38,7 +42,6 @@ export const searchThunk = createAsyncThunk(
 
         try {
             const results = await searchSpotify(query, token);
-            console.log('Search Results:', results); // Log results for debugging
             return results;
         } catch (error) {
             return rejectWithValue(error.message);
@@ -87,7 +90,6 @@ const searchSlice = createSlice({
             })
             .addCase(searchThunk.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // Ensure results are properly set
                 state.results = action.payload.tracks ? action.payload.tracks.items : [];
             })
             .addCase(searchThunk.rejected, (state, action) => {
@@ -97,20 +99,24 @@ const searchSlice = createSlice({
     }
 });
 
-
 export const store = configureStore({
     reducer: {
         accessToken: accessTokenSlice.reducer,
         search: searchSlice.reducer,
     }
 });
-/**
- * Redux Store Configuration
- * 
- * This file configures the Redux store for managing the application's state.
- * It includes slices for handling access tokens and search results.
- * The `accessTokenThunk` is used to fetch and refresh the Spotify access token.
- * The `searchThunk` is used to fetch search results from the Spotify API.
- */
+
+
+
+// Summary of New Updates:
+// - Added logic to store and check token_expiry_time in localStorage in accessTokenThunk
+// - Updated searchThunk to refresh access token if expired before making a search request
+
+//  * Redux Store Configuration
+//  * This file configures the Redux store for managing the application's state.
+//  * It includes slices for handling access tokens and search results.
+//  * The `accessTokenThunk` is used to fetch and refresh the Spotify access token.
+//  * The `searchThunk` is used to fetch search results from the Spotify API.
+//  */
 
 
