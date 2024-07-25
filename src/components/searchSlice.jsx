@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchSearchResults } from '../../api/spotifyapi'; 
+import { fetchSearchResults } from '../api/spotifyapi'; 
 
 export const searchTracks = createAsyncThunk(
     'search/searchTracks',
