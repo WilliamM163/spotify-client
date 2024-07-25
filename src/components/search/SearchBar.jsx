@@ -6,7 +6,6 @@ import { searchThunk } from '../../store';
 import { primary_container } from '../../App.module.css';
 import styles from './SearchBar.module.css';
 
-
 const Search = () => {
     const [query, setQuery] = useState('');
     const dispatch = useDispatch();
@@ -28,7 +27,7 @@ const Search = () => {
             <button
                 onClick={handleSearch}
                 disabled={isLoading}
-                className={styles.search_input}
+                className={styles.search_button}
             >
                 {isLoading ? 'Searching...' : '🔍 Search'}
             </button>
@@ -37,6 +36,7 @@ const Search = () => {
 };
 
 export default Search;
+
 
 // * SearchBar Component->
 // * This component provides an input field and a button for searching music tracks.

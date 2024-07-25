@@ -1,6 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 .search {
     grid-area: 1 / 1 / 1 / 3; /* Search Bar takes up one column */
-
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 5px;
@@ -11,4 +11,46 @@
     border-radius: 5px;
     background-color: white;
     text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
+
+.search_input:focus {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search_button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.search_button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.search_button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.search::after {
+    content: '';
+    display: block;
+    height: 2px;
+    /* background-color: #007BFF; */
+    margin-top: 5px;
+    width: 100%;
+}
+
+

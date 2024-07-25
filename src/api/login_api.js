@@ -1,15 +1,18 @@
 const clientId = '2ef60a6a1ca94d4f86b4f82b869cd940';
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
- async function authenticate() {
+
+async function authenticate() {
     if (!code) {
         redirectToAuthCodeFlow(clientId);
     } else {
-        const { accessToken, refreshToken } = await getAccessToken(clientId, code);
+        const { accessToken, refreshToken, expires_in } = await getAccessToken(clientId, code);
         if (accessToken) {
-            // Store the refresh token securely
+            // Store the refresh token, access token, and expiry time securely
+            const expiryTime = Date.now() + expires_in * 1000;
             localStorage.setItem("refresh_token", refreshToken);
             localStorage.setItem("access_token", accessToken);
+            localStorage.setItem("token_expiry_time", expiryTime.toString());
             localStorage.removeItem("verifier"); // Clear verifier after use
             return accessToken;
         } else {
@@ -18,7 +21,6 @@ const code = params.get("code");
         }
     }
 }
-
 
 async function redirectToAuthCodeFlow(clientId) {
     localStorage.removeItem("verifier"); // Ensure no old verifier is used
@@ -63,7 +65,7 @@ async function getAccessToken(clientId, code) {
 
     if (!verifier) {
         console.error("Code verifier not found in local storage");
-        return { accessToken: null, refreshToken: null };
+        return { accessToken: null, refreshToken: null, expires_in: null };
     }
 
     const params = new URLSearchParams();
@@ -83,20 +85,22 @@ async function getAccessToken(clientId, code) {
         if (!result.ok) {
             const data = await result.json();
             console.error('Error response:', data);
-            return { accessToken: null, refreshToken: null };
+            return { accessToken: null, refreshToken: null, expires_in: null };
         }
 
         const data = await result.json();
         return {
             accessToken: data.access_token,
-            refreshToken: data.refresh_token
+            refreshToken: data.refresh_token,
+            expires_in: data.expires_in
         };
     } catch (error) {
         console.error('Fetch error:', error);
-        return { accessToken: null, refreshToken: null };
+        return { accessToken: null, refreshToken: null, expires_in: null };
     }
 }
- async function refreshAccessToken() {
+
+async function refreshAccessToken() {
     const refreshToken = localStorage.getItem("refresh_token");
 
     if (!refreshToken) {
@@ -124,6 +128,8 @@ async function getAccessToken(clientId, code) {
 
         const data = await result.json();
         localStorage.setItem("access_token", data.access_token);
+        const expiryTime = Date.now() + data.expires_in * 1000;
+        localStorage.setItem("token_expiry_time", expiryTime.toString());
         return data.access_token;
     } catch (error) {
         console.error('Fetch error:', error);
@@ -131,7 +137,14 @@ async function getAccessToken(clientId, code) {
     }
 }
 
-export { authenticate, refreshAccessToken }; 
+export { authenticate, refreshAccessToken };
+
+
+// Summary of New Updates:
+// - Modified authenticate function to store access token, refresh token, and token expiry time in localStorage
+// - Updated getAccessToken function to set token_expiry_time in localStorage
+// - Added refreshAccessToken function to refresh the access token using the refresh token stored in localStorage
+
 //  * Login API Helper Functions
 //  * This file contains helper functions for Spotify authentication.
 //  * It includes functions to authenticate and refresh access tokens.

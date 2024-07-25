@@ -1,50 +1,62 @@
 .track {
-    border-radius: 15px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    gap: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease;
+}
+
+.track:hover {
+    background-color: #f9f9f9;
+}
+
+.track_image {
+    width: 80px;
     height: 80px;
-    width: 100%;
-    padding: 0 !important;
-    margin-bottom: 15px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.track_image:hover {
+    transform: scale(1.05);
 }
 
 .track_info {
-    margin: auto 0;
-    white-space: nowrap;
-    overflow: hidden;
+    flex: 1;
+    margin-left: 15px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .track_name {
-    margin: 0 0 5px 0;
+    font-size: 1.2rem;
     font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0;
 }
 
 .album_name {
-    font-size: 12px;
+    font-size: 1rem;
+    color: #555;
     margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .artist_name {
-    font-size: 14px;
-    margin: 12px 0 0 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    color: #777;
+    margin: 0;
 }
 
 .buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
     gap: 10px;
-    margin: auto 5px auto 0;
 }
 
 .icon {
+    width: 24px;
+    height: 24px;
     cursor: pointer;
-    margin: auto;
+    transition: transform 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.2);
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styles from './Track.module.css';
 import { secondary_container } from '../App.module.css';
 
@@ -13,10 +12,8 @@ function Track({ track }) {
         <div className={`${secondary_container} ${styles.track}`}>
             <img
                 src={track.album.images[1].url}
-                style={{
-                    'width': 80,
-                    'height': 80
-                }}
+                alt={track.name}
+                className={styles.track_image}
             />
             <div className={styles.track_info}>
                 <p className={styles.track_name}>{track.name}</p>
@@ -28,11 +25,13 @@ function Track({ track }) {
                     src='/images/play.svg'
                     className={styles.icon}
                     title='Play Preview'
+                    alt='Play'
                 />
                 <img
                     src='/images/add.svg'
                     className={styles.icon}
                     title='Add to playlist'
+                    alt='Add'
                 />
                 <img
                     src='/images/open_spotify.svg'
@@ -40,6 +39,7 @@ function Track({ track }) {
                     onClick={openSpotify}
                     id={track.id}
                     title='Open in Spotify'
+                    alt='Open in Spotify'
                 />
             </div>
         </div>
