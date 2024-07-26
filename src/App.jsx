@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import Tabs from './components/Tabs';
 import AccountTab from './components/AccountTab';
+import Credits from './components/Credits';
 
 import styles from './App.module.css';
 
@@ -23,6 +24,7 @@ function App() {
             <AccountTab />
             <SearchResults />
             <Sidebar />
+            <Credits />
         </div>
     );
 }
