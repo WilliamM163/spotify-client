@@ -3,7 +3,7 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: 70px calc(100vh - 190px) 70px;
+    grid-template-rows: 70px 175px calc(100vh - 380px) 70px;
     grid-gap: 15px;
     max-width: 1000px;
     margin: 0 auto;

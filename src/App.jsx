@@ -5,10 +5,11 @@ import SearchResults from './components/SearchResults';
 import Tabs from './components/Tabs';
 import AccountTab from './components/AccountTab';
 import Credits from './components/Credits';
+import Player from './components/Player';
+import Sidebar from './components/Sidebar';
 
+// Importing styles
 import styles from './App.module.css';
-
-import { Sidebar } from './components/Sidebar';
 
 function App() {
     const isLoading = useSelector((state) => state.accessToken.isLoading);
@@ -23,6 +24,7 @@ function App() {
             <SearchBar />
             <AccountTab />
             <SearchResults />
+            <Player />
             <Sidebar />
             <Credits />
         </div>

@@ -8,4 +8,4 @@ function Sidebar() {
     return <div className={`${accent_container} ${styles.sidebar}`}>Sidebar:</div>
 }
 
-export { Sidebar };
+export default Sidebar;
