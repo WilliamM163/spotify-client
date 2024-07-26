@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { primary_container } from '../App.module.css';
-import { tabs } from './styles/Tabs.module.css';
-import { tab } from './styles/Tab.module.css';
+import { tabs, tab } from './styles/Tabs.module.css';
 
 function Tabs() {
     return (

@@ -2,8 +2,7 @@ import React from "react";
 
 // Importing Styles
 import { primary_container } from '../App.module.css';
-import { account_tab } from './styles/AccountTab.module.css';
-import { tab } from './styles/Tab.module.css';
+import { account_tab, tab } from './styles/Tabs.module.css';
 
 function AccountTab() {
     return (

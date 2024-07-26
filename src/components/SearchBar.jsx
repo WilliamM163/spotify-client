@@ -4,7 +4,7 @@ import { searchThunk } from '../store';
 
 // Importing styles
 import { primary_container } from '../App.module.css';
-import styles from './styles/SearchBar.module.css';
+import { search, space, search_input, search_button } from './styles/Search.module.css';
 
 const Search = () => {
     const [query, setQuery] = useState('');
@@ -15,19 +15,19 @@ const Search = () => {
     };
 
     return (
-        <div className={`${primary_container} ${styles.search}`}>
+        <div className={`${primary_container} ${search}`}>
             <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="What song are you looking for?"
-                className={styles.search_input}
+                className={search_input}
             />
-            <div className={styles.space}></div>
+            <div className={space}></div>
             <img
                 src='/icons/search.svg'
                 onClick={handleSearch}
-                className={styles.search_button}
+                className={search_button}
             />
         </div>
     );

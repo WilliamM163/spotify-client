@@ -1,0 +1,22 @@
+.credits {
+    grid-area: 3 / 1 / 4 / 11;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.credits div {
+    display: flex;
+    align-items: center;
+}
+
+.credits ul {
+    display: flex;
+}
+
+.credits li {
+    list-style: none;
+    padding-right: 10px;
+}
