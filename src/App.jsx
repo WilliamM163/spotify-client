@@ -20,13 +20,12 @@ function App() {
   if (failed) return <div>Failed to fetch access token.</div>;
 
   // Show sidebar only on the Home page
-  const showSidebar = location.pathname === "/";
 
   return (
     <div className={styles.grid}>
       <Tabs />
       <SearchBar />
-      {showSidebar && <Sidebar />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/callback" element={<AuthCallback />} />{" "}
@@ -42,6 +41,7 @@ function App() {
         <Route path="/music-library" element={<Musiclibrary />} />
         <Route path="/account" element={<Account />} />
       </Routes>
+      <Sidebar />
     </div>
   );
 }
