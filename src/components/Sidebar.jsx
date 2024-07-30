@@ -5,7 +5,7 @@ import styles from './styles/Sidebar.module.css';
 
 
 function Sidebar() {
-    return <div className={`${accent_container} ${styles.sidebar}`}>Sidebar:</div>
+    return <div className={`${accent_container} ${styles.sidebar}`}>Playing Next:</div>
 }
 
 export default Sidebar;

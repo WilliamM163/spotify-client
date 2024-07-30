@@ -10,6 +10,8 @@ import Credits from './components/Credits';
 import Player from './components/Player';
 import Sidebar from './components/Sidebar';
 
+import Pages from './components/Pages';
+
 // Importing Pages
 import Home from './components/pages/Home';
 import Musiclibrary from "./components/pages/Musiclibrary";
@@ -35,11 +37,11 @@ function App() {
       <Tabs />
       <SearchBar />
       <AccountTab />
+      <Pages />
 
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth/callback" element={<AuthCallback />} />{" "}
-        {/* Add this route */}
         <Route
           path="/search"
           element={
@@ -50,7 +52,7 @@ function App() {
         />
         <Route path="/music-library" element={<Musiclibrary />} />
         <Route path="/account" element={<Account />} />
-      </Routes>
+      </Routes> */}
 
       <Player />
       <Sidebar />

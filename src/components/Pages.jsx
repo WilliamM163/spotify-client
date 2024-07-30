@@ -8,25 +8,29 @@ import SearchResults from "./pages/SearchResults";
 import Musiclibrary from './pages/Musiclibrary';
 import Account from './pages/Account';
 
-import AuthCallback from "./pages/AuthCallback";
+// Importing Styles
+import { primary_container } from '../App.module.css';
+import { pages } from './styles/Pages.module.css'
 
 function Pages() {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/auth/callback" element={<AuthCallback />} />{" "}
-            {/* Add this route */}
-            <Route
-                path="/search"
-                element={
-                    <>
-                        <SearchResults />
-                    </>
-                }
-            />
-            <Route path="/music-library" element={<Musiclibrary />} />
-            <Route path="/account" element={<Account />} />
-        </Routes>
+        <div className={`${primary_container} ${pages}`}>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />{" "}
+                {/* Add this route */}
+                <Route
+                    path="/search"
+                    element={
+                        <>
+                            <SearchResults />
+                        </>
+                    }
+                />
+                <Route path="/music-library" element={<Musiclibrary />} />
+                <Route path="/account" element={<Account />} />
+            </Routes>
+        </div>
     );
 }
 

@@ -42,7 +42,7 @@ export default function Account() {
   }
 
   return (
-    <div className="accountContainer">
+    <div>
       <h1>Account Information</h1>
       <p>Name: {userInfo.display_name}</p>
       <p>Email: {userInfo.email}</p>
