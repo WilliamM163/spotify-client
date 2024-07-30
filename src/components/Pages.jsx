@@ -5,7 +5,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Home from './pages/Home';
 import AuthCallback from "./pages/AuthCallback";
 import SearchResults from "./pages/SearchResults";
-import Musiclibrary from './pages/Musiclibrary';
+import Musiclibrary from './pages/MusicLibrary';
 import Account from './pages/Account';
 
 // Importing Styles
@@ -15,7 +15,6 @@ import { pages } from './styles/Pages.module.css'
 function Pages() {
     const location = useLocation();
     const style = location.pathname === '/search' ? pages : `${primary_container} ${pages}`;
-    console.log(style);
 
     return (
         <div className={style}>

@@ -3,9 +3,11 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { authenticate, refreshAccessToken } from "./api/login_api";
-import { searchSpotify } from "./api/spotifyapi"; // Import searchSpotify from spotify_api.js
 
+import { authenticate, refreshAccessToken } from "./api/login_api";
+import { searchSpotify, getUserPlaylists } from './api/spotifyapi';
+
+// AccessTokenThunk
 export const accessTokenThunk = createAsyncThunk(
   "accessToken/get",
   async (_, { rejectWithValue }) => {
@@ -27,6 +29,7 @@ export const accessTokenThunk = createAsyncThunk(
   }
 );
 
+// Search Thunk
 export const searchThunk = createAsyncThunk(
   "search/query",
   async (query, { getState, rejectWithValue, dispatch }) => {
@@ -53,6 +56,25 @@ export const searchThunk = createAsyncThunk(
   }
 );
 
+// Load Playlists Thunk
+export const loadPlaylistsThunk = createAsyncThunk(
+  'playlists/loadPlaylists',
+  async () => {
+      try {
+          const response = await getUserPlaylists();
+          if (response.ok) {
+              const data = await response.json();
+              return data;
+          } else {
+              return rejectWithValue('Failed to fetch playlists');
+          }
+      } catch (error) {
+          return rejectWithValue(error.message);
+      }
+  }
+);
+
+// Access Token Slice
 const accessTokenSlice = createSlice({
   name: "accessToken",
   initialState: {
@@ -78,6 +100,7 @@ const accessTokenSlice = createSlice({
   },
 });
 
+// Search Slice
 const searchSlice = createSlice({
   name: "search",
   initialState: {
@@ -105,10 +128,37 @@ const searchSlice = createSlice({
   },
 });
 
+// Playlists Slice
+const playlistsSlice = createSlice({
+  name: 'playlists',
+  initialState: {
+      results: [],
+      isLoading: false,
+      error: null,
+  },
+  reducers: {},
+  extraReducers: builder => {
+      builder
+          .addCase(loadPlaylistsThunk.pending, (state) => {
+              state.isLoading = true;
+              state.error = null;
+          })
+          .addCase(loadPlaylistsThunk.fulfilled, (state, action) => {
+              state.isLoading = false;
+              state.results = action.payload;
+          })
+          .addCase(loadPlaylistsThunk.rejected, (state, action) => {
+              state.isLoading = false;
+              state.error = action.payload;
+          });
+  }
+});
+
 export const store = configureStore({
   reducer: {
     accessToken: accessTokenSlice.reducer,
     search: searchSlice.reducer,
+    playlists: playlistsSlice.reducer
   },
 });
 

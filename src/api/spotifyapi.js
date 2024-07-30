@@ -65,6 +65,23 @@ export async function searchSpotify(query, token) {
   return data;
 }
 
+export async function getUserPlaylists() {
+  const response = await fetch("https://api.spotify.com/v1/me/playlists", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (response.status == 403) {
+    return null;
+  }
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch user\'s Playlist');
+  }
+  
+  const json =  await response.json();
+  return json;
+}
+
 /**
  * Spotify API Helper Functions
  *
