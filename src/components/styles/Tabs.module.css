@@ -1,5 +1,5 @@
 .tabs {
-    grid-area: 1 / 1 / 2 / 3;
+  grid-area: 1 / 1 / 2 / 3;
 
     display: flex;
     align-items: center;

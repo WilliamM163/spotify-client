@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchThunk } from '../store';
+import { Link } from 'react-router-dom';
 
 // Importing styles
 import { primary_container } from '../App.module.css';
@@ -24,11 +25,13 @@ const Search = () => {
                 className={search_input}
             />
             <div className={space}></div>
-            <img
-                src='/icons/search.svg'
-                onClick={handleSearch}
-                className={search_button}
-            />
+            <Link to='/search'>
+                <img
+                    src='/icons/search.svg'
+                    onClick={handleSearch}
+                    className={search_button}
+                />
+            </Link>
         </div>
     );
 };
