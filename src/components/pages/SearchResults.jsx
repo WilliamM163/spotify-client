@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Track } from './Track';
+import { Track } from '../Track';
 
 // Importing Styles
-import { search_results } from './styles/Search.module.css';
+import { search_results } from '../styles/Search.module.css';
 
 function SearchResults() {
   const { results, isLoading, error } = useSelector((state) => state.search);
