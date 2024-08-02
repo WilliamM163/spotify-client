@@ -154,11 +154,24 @@ const playlistsSlice = createSlice({
   }
 });
 
+// Current Track Slice
+const currentTrackSlice = createSlice({
+  name: 'currentTrack',
+  initialState: {},
+  reducers: {
+    newTrack(_, action) {
+      return action.payload;
+    }
+  }
+});
+export const { newTrack } = currentTrackSlice.actions;
+
 export const store = configureStore({
   reducer: {
     accessToken: accessTokenSlice.reducer,
     search: searchSlice.reducer,
-    playlists: playlistsSlice.reducer
+    playlists: playlistsSlice.reducer,
+    currentTrack: currentTrackSlice.reducer
   },
 });
 

@@ -1,9 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { newTrack } from '../store';
 
 import styles from './styles/Track.module.css';
 import { secondary_container } from '../App.module.css';
 
 function Track({ track }) {
+    const dispatch = useDispatch();
+
+    function handlePlay() {
+        dispatch(newTrack(track));
+    }
 
     function openSpotify({target}) {
         window.open(`https://open.spotify.com/track/${target.id}`, '_blank');
@@ -27,6 +34,7 @@ function Track({ track }) {
                     className={styles.icon}
                     title='Play Preview'
                     alt='Play'
+                    onClick={handlePlay}
                 />
                 <img
                     src='/icons/add.svg'
