@@ -64,6 +64,52 @@ export async function searchSpotify(query, token) {
   const data = await response.json();
   return data;
 }
+export async function addTrackToPlaylist(trackId, token, playlistId) {
+  const response = await fetch(
+    `https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=spotify:track:${trackId}`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (response.status === 403) {
+    throw new Error("Access token expired or invalid");
+  }
+
+  if (!response.ok) {
+    throw new Error("Failed to add track to playlist");
+  }
+
+  return response.json();
+}
+
+// fetching user playlist function
+export async function getUserPlaylists(token) {
+  if (!token) {
+    throw new Error("No access token provided");
+  }
+
+  const response = await fetch("https://api.spotify.com/v1/me/playlists", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (response.status === 401) {
+    throw new Error("Unauthorized: Invalid access token");
+  }
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch playlists");
+  }
+
+  return response.json();
+}
 
 /**
  * Spotify API Helper Functions
