@@ -2,6 +2,16 @@ const clientId = "2ef60a6a1ca94d4f86b4f82b869cd940";
 const params = new URLSearchParams(window.location.search);
 const code = params.get("code");
 
+const scopes = [
+  "user-read-private",
+  "user-read-email",
+  "playlist-read-private",
+  "playlist-read-collaborative",
+  "user-library-read",
+  "playlist-modify-public",
+  "playlist-modify-private",
+  // Add other necessary scopes here
+];
 async function authenticate() {
   if (!code) {
     redirectToAuthCodeFlow(clientId);
@@ -36,7 +46,7 @@ async function redirectToAuthCodeFlow(clientId) {
   params.append("client_id", clientId);
   params.append("response_type", "code");
   params.append("redirect_uri", "http://localhost:5173");
-  params.append("scope", "user-read-private user-read-email");
+  params.append("scope", scopes.join(" "));
   params.append("code_challenge_method", "S256");
   params.append("code_challenge", challenge);
 
@@ -170,3 +180,24 @@ export { authenticate, refreshAccessToken };
 // getAccessToken(): Exchanges authorization code for tokens.
 // refreshAccessToken(): Uses refresh token to get a new access token.
 // This approach ensures a seamless and secure authentication experience for users, allowing continuous access to Spotify’s API without repeated logins.
+// Summary of New Updates:
+// - Modified authenticate function to store access token, refresh token, and token expiry time in localStorage
+// - Updated getAccessToken function to set token_expiry_time in localStorage
+// - Added refreshAccessToken function to refresh the access token using the refresh token stored in localStorage
+
+//  * Login API Helper Functions
+//  * This file contains helper functions for Spotify authentication.
+//  * It includes functions to authenticate and refresh access tokens.
+
+//SUMMARY of this fil->
+// We implemented a robust authentication mechanism for our Spotify client using the following steps:
+
+// Authenticate Users:
+// Users are redirected to Spotify’s authorization page to obtain an authorization code.
+// The code is then exchanged for an access token and a refresh token.
+// Tokens are securely stored in localStorage.
+
+// Token Management:
+// Access Token Retrieval: When the app needs an access token, it first checks localStorage.
+// Token Expiry Handling: If the access token is expired, the app automatically uses the refresh token to get a new access token.
+// Token Storage: New tokens are updated in localStorage to ensure continuous access without re-authentication.

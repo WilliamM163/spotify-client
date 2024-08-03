@@ -5,7 +5,11 @@ import {
 } from "@reduxjs/toolkit";
 
 import { authenticate, refreshAccessToken } from "./api/login_api";
-import { searchSpotify, getUserPlaylists } from './api/spotifyapi';
+import {
+  searchSpotify,
+  addTrackToPlaylist,
+  getUserPlaylists,
+} from "./api/spotifyapi";
 
 // AccessTokenThunk
 export const accessTokenThunk = createAsyncThunk(
@@ -58,19 +62,19 @@ export const searchThunk = createAsyncThunk(
 
 // Load Playlists Thunk
 export const loadPlaylistsThunk = createAsyncThunk(
-  'playlists/loadPlaylists',
+  "playlists/loadPlaylists",
   async () => {
-      try {
-          const response = await getUserPlaylists();
-          if (response.ok) {
-              const data = await response.json();
-              return data;
-          } else {
-              return rejectWithValue('Failed to fetch playlists');
-          }
-      } catch (error) {
-          return rejectWithValue(error.message);
+    try {
+      const response = await getUserPlaylists();
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        return rejectWithValue("Failed to fetch playlists");
       }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -100,6 +104,22 @@ const accessTokenSlice = createSlice({
   },
 });
 
+// Add To Playlist Thunk
+// Update the thunk to fetch user's playlists and then add the track to a playlist
+export const addTrackToPlaylistThunk = createAsyncThunk(
+  "playlists/addTrack",
+  async ({ trackId, token }, { rejectWithValue }) => {
+    try {
+      const playlists = await getUserPlaylists(token);
+      const playlistId = playlists.items[0].id; // Adjust logic as needed
+      const response = await addTrackToPlaylist(trackId, token, playlistId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Search Slice
 const searchSlice = createSlice({
   name: "search",
@@ -128,39 +148,69 @@ const searchSlice = createSlice({
   },
 });
 
-// Playlists Slice
+// Update playlistsSlice to handle addTrackToPlaylistThunk
 const playlistsSlice = createSlice({
-  name: 'playlists',
+  name: "playlists",
   initialState: {
-      results: [],
-      isLoading: false,
-      error: null,
+    results: [],
+    isLoading: false,
+    error: null,
   },
   reducers: {},
-  extraReducers: builder => {
-      builder
-          .addCase(loadPlaylistsThunk.pending, (state) => {
-              state.isLoading = true;
-              state.error = null;
-          })
-          .addCase(loadPlaylistsThunk.fulfilled, (state, action) => {
-              state.isLoading = false;
-              state.results = action.payload;
-          })
-          .addCase(loadPlaylistsThunk.rejected, (state, action) => {
-              state.isLoading = false;
-              state.error = action.payload;
-          });
-  }
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadPlaylistsThunk.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loadPlaylistsThunk.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.results = action.payload;
+      })
+      .addCase(loadPlaylistsThunk.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(addTrackToPlaylistThunk.fulfilled, (state, action) => {
+        state.results.push(action.payload);
+      })
+      .addCase(addTrackToPlaylistThunk.rejected, (state, action) => {
+        state.error = action.payload;
+      });
+  },
 });
+
+// Current Track Slice
+const currentTrackSlice = createSlice({
+  name: "currentTrack",
+  initialState: {},
+  reducers: {
+    newTrack(_, action) {
+      return action.payload;
+    },
+  },
+});
+export const { newTrack } = currentTrackSlice.actions;
 
 export const store = configureStore({
   reducer: {
     accessToken: accessTokenSlice.reducer,
     search: searchSlice.reducer,
-    playlists: playlistsSlice.reducer
+    playlists: playlistsSlice.reducer,
+    currentTrack: currentTrackSlice.reducer,
   },
 });
+
+// Summary of New Updates:
+// - Added logic to store and check token_expiry_time in localStorage in accessTokenThunk
+// - Updated searchThunk to refresh access token if expired before making a search request
+
+//  * Redux Store Configuration
+//  * This file configures the Redux store for managing the application's state.
+//  * It includes slices for handling access tokens and search results.
+//  * The `accessTokenThunk` is used to fetch and refresh the Spotify access token.
+//  * The `searchThunk` is used to fetch search results from the Spotify API.
+//  */
 
 // Summary of New Updates:
 // - Added logic to store and check token_expiry_time in localStorage in accessTokenThunk
