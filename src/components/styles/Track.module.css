@@ -17,11 +17,6 @@
     width: 80px;
     height: 80px;
     border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.track_image:hover {
-    transform: scale(1.05);
 }
 
 .track_info {

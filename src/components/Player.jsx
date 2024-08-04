@@ -7,40 +7,51 @@ import { useSelector } from "react-redux";
 
 function Player() {
     // Code for Web Playback
-    const { token } = useSelector((state) => state.accessToken);
-    const [ player, setPlayer ] = useState(undefined);
+    const { currentTrack } = useSelector((state) => state);
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
-
-        document.body.appendChild(script);
-
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const player = new window.Spotify.Player({
-                name: 'Web Playback SDK',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            });
-            setPlayer(player);
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
-            player.connect();
-        };
-    }, []);
-
-    if (player !== undefined) {
-        console.log(player);
+    // Check to see whether currentTrack has values is empty
+    let album_art = '/icons/track_icon.svg';
+    let song_title = 'Unknown Track';
+    let album_name = 'Unknown Album';
+    let artist_names = 'Unknown Artist';
+    if (currentTrack.id) {
+        album_art = currentTrack.album.images[1].url;
+        song_title = currentTrack.name;
+        album_name = currentTrack.album.name;
+        artist_names = currentTrack.artists.map((artist) => artist.name).join(", ");
     }
+
+
+
 
     return (
         <div className={`${primary_container} ${style.player}`}>
-            Player:
+            <img
+                src={album_art}
+                width='100'
+                height='100'
+            />
+            <div className={style.track_info}>
+                <h2>{song_title}</h2>
+                <p className={style.album_name}>{album_name}</p>
+                <p className={style.artist_names}>{artist_names}</p>
+            </div>
+            <div className={style.controls}>
+                <img
+                    src='/icons/skip_previous.svg'
+                    title='Go back a track'
+                />
+                <img
+                    src='/icons/play_track.svg'
+                    title='Play track' />
+                <img
+                    src='/icons/skip_next.svg'
+                    title='Skip to next track'
+                />
+            </div>
+            <div className={style.audio_bar}>
+                Audio Bar
+            </div>
         </div>
     );
 }
