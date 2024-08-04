@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // Importing Styles
 import { primary_container } from '../App.module.css';
 import style from './styles/Player.module.css';
-import { useSelector } from "react-redux";
 
 function Player() {
     // Code for Web Playback
-    const { currentTrack } = useSelector((state) => state);
+    const { currentTrack, accessToken } = useSelector((state) => state);
 
     // Check to see whether currentTrack has values is empty
     let album_art = '/icons/track_icon.svg';
     let song_title = 'Unknown Track';
     let album_name = 'Unknown Album';
     let artist_names = 'Unknown Artist';
+
     if (currentTrack.id) {
         album_art = currentTrack.album.images[1].url;
         song_title = currentTrack.name;
         album_name = currentTrack.album.name;
         artist_names = currentTrack.artists.map((artist) => artist.name).join(", ");
     }
-
-
-
 
     return (
         <div className={`${primary_container} ${style.player}`}>

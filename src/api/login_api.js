@@ -10,7 +10,11 @@ const scopes = [
   "user-library-read",
   "playlist-modify-public",
   "playlist-modify-private",
-  // Add other necessary scopes here
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "app-remote-control",
+  "streaming"
 ];
 async function authenticate() {
   if (!code) {
