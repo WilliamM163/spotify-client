@@ -2,15 +2,19 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles/Track.module.css";
 import { secondary_container } from "../App.module.css";
-import { addTrackToPlaylistThunk } from "../store"; // Import the thunk
+import { addTrackToPlaylistThunk, newTrack } from "../store"; // Import the thunk
 
 function Track({ track }) {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.accessToken.token);
 
-  async function handleAddToPlaylist() {
+  function handlePlay() {
+    dispatch(newTrack(track));
+  }
+
+  function handleAddToPlaylist() {
     try {
-      await dispatch(addTrackToPlaylistThunk({ trackId: track.id, token }));
+      dispatch(addTrackToPlaylistThunk({ trackId: track.id, token }));
     } catch (error) {
       console.error("Failed to add track to playlist:", error);
     }
@@ -40,6 +44,7 @@ function Track({ track }) {
           className={styles.icon}
           title="Play Preview"
           alt="Play"
+          onClick={handlePlay}
         />
         <img
           src="/icons/add.svg"

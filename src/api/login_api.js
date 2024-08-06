@@ -10,9 +10,30 @@ const scopes = [
   "user-library-read",
   "playlist-modify-public",
   "playlist-modify-private",
-  // Add other necessary scopes here
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "app-remote-control",
+  "streaming",
 ];
 async function authenticate() {
+  const accessToken = localStorage.getItem("access_token");
+  const tokenExpiryTime = localStorage.getItem("token_expiry_time");
+
+  // Check if access token exists and is still valid
+  if (accessToken && Date.now() < tokenExpiryTime) {
+    return accessToken;
+  }
+
+  // If token is expired, try to refresh it
+  if (accessToken && Date.now() >= tokenExpiryTime) {
+    const newAccessToken = await refreshAccessToken();
+    if (newAccessToken) {
+      return newAccessToken;
+    }
+  }
+
+  // If no code or token, start the authentication process
   if (!code) {
     redirectToAuthCodeFlow(clientId);
   } else {
@@ -140,8 +161,8 @@ async function refreshAccessToken() {
     }
 
     const data = await result.json();
-    localStorage.setItem("access_token", data.access_token);
     const expiryTime = Date.now() + data.expires_in * 1000;
+    localStorage.setItem("access_token", data.access_token);
     localStorage.setItem("token_expiry_time", expiryTime.toString());
     return data.access_token;
   } catch (error) {

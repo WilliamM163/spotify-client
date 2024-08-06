@@ -8,12 +8,12 @@ import AccountTab from './components/AccountTab';
 import Credits from './components/Credits';
 import Player from './components/Player';
 import Sidebar from './components/Sidebar';
+import LoadPlayer from './components/LoadPlayer';
 
 import Pages from './components/Pages';
 
 // Importing styles
 import styles from './App.module.css';
-
 
 function App() {
   const isLoading = useSelector((state) => state.accessToken.isLoading);
@@ -31,6 +31,7 @@ function App() {
       <Player />
       <Sidebar />
       <Credits />
+      <LoadPlayer />
     </div>
   );
 }

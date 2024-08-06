@@ -1,6 +1,56 @@
 .player {
     grid-area: 2 / 6 / 3 / 11;
 
-    /* background-color: black !important;
-    color: white; */
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 100px 1fr;
+    gap: 10px;
+}
+
+.player img {
+    grid-area: 1 / 1 / 2 / 2;
+    border-radius: 10px;
+}
+
+.track_info {
+    grid-area: 1 / 2 / 2 / 3;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.track_info > * {
+    margin: 0;
+}
+
+.album_name {
+    font-size: 14px;
+}
+
+.artist_names {
+    margin-top: auto !important;
+}
+
+.controls {
+    grid-area: 2 / 1 / 3 / 2;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.controls img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.controls img:hover {
+    transform: scale(1.2);
+}
+
+.audio_bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

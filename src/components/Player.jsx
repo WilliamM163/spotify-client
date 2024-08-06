@@ -1,48 +1,44 @@
-import React, { useEffect, useState } from "react";
-
-// Importing Styles
-import { primary_container } from '../App.module.css';
-import style from './styles/Player.module.css';
 import { useSelector } from "react-redux";
+import { primary_container } from "../App.module.css";
+import style from "./styles/Player.module.css";
 
 function Player() {
-    // Code for Web Playback
-    const { token } = useSelector((state) => state.accessToken);
-    const [ player, setPlayer ] = useState(undefined);
+  // Code for Web Playback
+  const currentTrack = useSelector((state) => state.currentTrack);
+  const accessToken = useSelector((state) => state.accessToken.token);
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
+  if (!currentTrack || !accessToken) {
+    return null; // Or show a placeholder
+  }
 
-        document.body.appendChild(script);
+  let album_art = "/icons/track_icon.svg";
+  let song_title = "Unknown Track";
+  let album_name = "Unknown Album";
+  let artist_names = "Unknown Artist";
 
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const player = new window.Spotify.Player({
-                name: 'Web Playback SDK',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            });
-            setPlayer(player);
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
-            player.connect();
-        };
-    }, []);
+  if (currentTrack.id) {
+    album_art = currentTrack.album.images[1].url;
+    song_title = currentTrack.name;
+    album_name = currentTrack.album.name;
+    artist_names = currentTrack.artists.map((artist) => artist.name).join(", ");
+  }
 
-    if (player !== undefined) {
-        console.log(player);
-    }
-
-    return (
-        <div className={`${primary_container} ${style.player}`}>
-            Player:
-        </div>
-    );
+  return (
+    <div className={`${primary_container} ${style.player}`}>
+      <img src={album_art} width="100" height="100" />
+      <div className={style.track_info}>
+        <h2>{song_title}</h2>
+        <p className={style.album_name}>{album_name}</p>
+        <p className={style.artist_names}>{artist_names}</p>
+      </div>
+      <div className={style.controls}>
+        <img src="/icons/skip_previous.svg" title="Go back a track" />
+        <img src="/icons/play_track.svg" title="Play track" />
+        <img src="/icons/skip_next.svg" title="Skip to next track" />
+      </div>
+      <div className={style.audio_bar}>Audio Bar</div>
+    </div>
+  );
 }
 
 export default Player;
