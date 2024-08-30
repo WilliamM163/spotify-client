@@ -1,49 +1,49 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { searchThunk } from '../store';
-import { Link } from 'react-router-dom';
+// src/components/SearchBar.jsx
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { searchMusic } from "../api/youtubeapi";
+import SearchResults from "./pages/SearchResults"; // Import the updated SearchResults component
 
-// Importing styles
-import { primary_container } from '../App.module.css';
-import { search, space, search_input, search_button } from './styles/Search.module.css';
+const SearchBar = () => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-const Search = () => {
-    const [query, setQuery] = useState('');
-    const dispatch = useDispatch();
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const musicResults = await searchMusic(query);
+      setResults(musicResults || []); // Ensure results is always an array
+    } catch (err) {
+      setError("Failed to fetch results.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const handleSearch = () => {
-        dispatch(searchThunk(query));
-    };
-
-    return (
-        <div className={`${primary_container} ${search}`}>
-            <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="What song are you looking for?"
-                className={search_input}
-            />
-            <div className={space}></div>
-            <Link to='/search'>
-                <img
-                    src='/icons/search.svg'
-                    onClick={handleSearch}
-                    className={search_button}
-                />
-            </Link>
-        </div>
-    );
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search for music..."
+      />
+      <button onClick={handleSearch}>Search</button>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+      <SearchResults results={results} /> {/* Pass results to SearchResults */}
+    </div>
+  );
 };
 
-export default Search;
-
+export default SearchBar;
 
 // * SearchBar Component->
 // * This component provides an input field and a button for searching music tracks.
 // * It uses Redux to dispatch the search query and display the results.
-// 
-
+//
 
 /*
     I am changing the Search button from an button to an icon
@@ -67,4 +67,3 @@ export default Search;
     );
 }
 */
-
