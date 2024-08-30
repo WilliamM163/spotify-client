@@ -1,8 +1,8 @@
-import React from 'react';
-
-import { primary_container } from '../App.module.css';
-import { tabs, tab } from './styles/Tabs.module.css';
-import { Link } from 'react-router-dom';
+// tabs.jsx
+import React from "react";
+import { primary_container } from "../App.module.css";
+import { tabs, tab } from "./styles/Tabs.module.css";
+import { Link } from "react-router-dom";
 
 function Tabs() {
   return (
@@ -10,10 +10,10 @@ function Tabs() {
       <Link to="/">
         <img src="/icons/home.svg" title="Homepage" className={tab} />
       </Link>
-      <Link to="/music-library">
+      <Link to="/subscriptions">
         <img
-          src="/icons/music_library.svg"
-          title="Music Library"
+          src="/icons/subscriptions.svg"
+          title="Subscriptions"
           className={tab}
         />
       </Link>
